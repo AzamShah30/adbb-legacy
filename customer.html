@@ -68,3 +68,83 @@
   <a href="index.html">← Kembali ke Laman Utama</a>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Pelanggan ADBB</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1c1c2b;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #ffc107;
+    }
+    input, button {
+      padding: 10px;
+      margin: 8px 0;
+      width: 80%;
+      max-width: 400px;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #ffc107;
+      color: black;
+      cursor: pointer;
+    }
+    .pelanggan {
+      background: #2a2a3c;
+      padding: 15px;
+      margin: 10px auto;
+      border-radius: 8px;
+      max-width: 500px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tambah Pelanggan</h1>
+  <input type="text" id="nama" placeholder="Nama Pelanggan">
+  <input type="text" id="telefon" placeholder="No. Telefon">
+  <input type="text" id="alamat" placeholder="Alamat">
+  <button onclick="simpan()">Simpan</button>
+
+  <div id="senarai"></div>
+
+  <script>
+    function simpan() {
+      const nama = document.getElementById('nama').value;
+      const telefon = document.getElementById('telefon').value;
+      const alamat = document.getElementById('alamat').value;
+      if (!nama || !telefon || !alamat) return alert('Sila isi semua maklumat.');
+
+      const data = { nama, telefon, alamat };
+      let pelanggan = JSON.parse(localStorage.getItem('pelanggan')) || [];
+      pelanggan.push(data);
+      localStorage.setItem('pelanggan', JSON.stringify(pelanggan));
+      papar();
+      document.getElementById('nama').value = '';
+      document.getElementById('telefon').value = '';
+      document.getElementById('alamat').value = '';
+    }
+
+    function papar() {
+      const pelanggan = JSON.parse(localStorage.getItem('pelanggan')) || [];
+      document.getElementById('senarai').innerHTML = pelanggan.map(p => `
+        <div class="pelanggan">
+          <strong>${p.nama}</strong><br>
+          Telefon: ${p.telefon}<br>
+          Alamat: ${p.alamat}
+        </div>
+      `).join('');
+    }
+
+    window.onload = papar;
+  </script>
+</body>
+</html>
